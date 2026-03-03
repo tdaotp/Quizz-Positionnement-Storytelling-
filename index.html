@@ -3,60 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quiz Storytelling - Lead Magnet</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Ton storytelling peut-il te propulser ? Découvre-le avec ce quiz stratégique</title>
+    <link rel="stylesheet" href="https://tdaotp/quiz-storytelling/style.css"> Lien vers le fichier CSS
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>🎯 Quiz Storytelling</h1>
-            <p>Découvrez votre niveau en storytelling et recevez des recommandations personnalisées !</p>
+
+    <div id="quiz-container">
+        <h1>Ton storytelling peut-il te propulser ? Découvre-le avec ce quiz stratégique</h1>
+
+        <!-- Formulaire de collecte des informations -->
+        <div id="info-form">
+            <label for="first-name">Prénom :</label>
+            <input type="text" id="first-name" name="first-name" required><br>
+
+            <label for="last-name">Nom :</label>
+            <input type="text" id="last-name" name="last-name" required><br>
+
+            <label for="email">Email :</label>
+            <input type="email" id="email" name="email" required><br>
+
+            <button id="start-button" onclick="startQuiz()">Commencer le quiz</button>
         </div>
 
-        <!-- FORM SECTION FOR CONTACT INFO -->
-        <div id="form-section" class="form-section">
-            <h2>Avant de commencer, laissez-nous vos coordonnées</h2>
-            <form id="contact-form">
-                <div class="form-group">
-                    <label for="nom">Nom *</label>
-                    <input type="text" id="nom" name="nom" required placeholder="Votre nom">
-                </div>
-
-                <div class="form-group">
-                    <label for="prenom">Prénom *</label>
-                    <input type="text" id="prenom" name="prenom" required placeholder="Votre prénom">
-                </div>
-
-                <div class="form-group">
-                    <label for="email">Email *</label>
-                    <input type="email" id="email" name="email" required placeholder="votre.email@exemple.com">
-                </div>
-
-                <button type="button" onclick="startQuiz()" class="btn-start">Commencer le quiz</button>
-            </form>
+        <div id="question-container" style="display: none;">
+            <!-- Les questions et réponses seront insérées ici par JavaScript -->
         </div>
-
-        <!-- QUIZ SECTION -->
-        <div id="quiz-section" class="quiz-section" style="display: none;">
-            <div class="progress-bar">
-                <div id="progress" class="progress-fill"></div>
-            </div>
-            <div id="progress-text" class="progress-text"></div>
-
-            <div id="quiz-container" class="quiz-container">
-                <!-- Quiz questions will be loaded here -->
-            </div>
-        </div>
-
-        <!-- RESULTS SECTION -->
-        <div id="results-section" class="results-section" style="display: none;">
-            <h2>📊 Vos résultats</h2>
-            <div id="results-content">
-                <!-- Results will be displayed here -->
-            </div>
-        </div>
+        <button id="next-button" onclick="nextQuestion()" style="display: none;">Suivant</button>
     </div>
 
-    <script src="script.js"></script>
+    <div id="result-container" style="display: none;">
+        <h2>Résultat du Quiz</h2>
+        <p id="score-text"></p>
+        <p id="level-text"></p>
+        <button onclick="restartQuiz()">Recommencer le Quiz</button>
+    </div>
+
+    <!-- Lien vers le fichier JavaScript -->
+    <script src="https://tdaotp/quiz-storytelling/script.js"></script> <!-- Lien vers ton fichier script.js -->
 </body>
 </html>
