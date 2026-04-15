@@ -21,7 +21,6 @@
   --red: #c0392b;
   --red-bg: #fdf0ee;
   --red-border: #f0b8b0;
-  --sage: #7a9e7e;
 }
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body { background: var(--bg); color: var(--text); font-family: 'Plus Jakarta Sans', sans-serif; min-height: 100vh; }
@@ -35,14 +34,13 @@ body::before {
 @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 @keyframes popIn { 0% { transform: scale(0.97); } 50% { transform: scale(1.02); } 100% { transform: scale(1); } }
 
-/* HEADER */
 .header { text-align: center; margin-bottom: 48px; animation: fadeUp 0.7s ease both; }
 .tag { display: inline-flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 600; letter-spacing: 2.5px; text-transform: uppercase; color: var(--terracotta); background: var(--terra-pale); padding: 7px 16px; border-radius: 40px; margin-bottom: 24px; }
 .header h1 { font-family: 'Cormorant Garamond', serif; font-size: clamp(28px,5vw,46px); font-weight: 700; line-height: 1.15; margin-bottom: 20px; }
 .header h1 em { color: var(--terracotta); font-style: italic; }
 .header p { font-size: 16px; font-weight: 300; line-height: 1.75; color: var(--muted); max-width: 520px; margin: 0 auto; }
+.header-note { margin-top: 16px; font-size: 14px; color: var(--terracotta); background: var(--terra-pale); border: 1px solid var(--terra-light); border-radius: 12px; padding: 12px 20px; max-width: 520px; margin: 16px auto 0; line-height: 1.6; }
 
-/* CARD */
 .card { background: var(--white); border: 1px solid var(--border); border-radius: 24px; padding: 40px; margin-bottom: 32px; box-shadow: 0 4px 24px rgba(45,36,22,0.06); animation: fadeUp 0.7s 0.15s ease both; }
 .card h2 { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 600; margin-bottom: 28px; }
 .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
@@ -57,7 +55,6 @@ body::before {
 .err { color: var(--red); font-size: 13px; margin-top: 8px; display: none; }
 .err.show { display: block; }
 
-/* QUIZ */
 .quiz-wrap { display: none; }
 .quiz-wrap.show { display: block; animation: fadeUp 0.5s ease both; }
 .score-bar { display: flex; align-items: center; gap: 10px; background: var(--white); border: 1px solid var(--border); border-radius: 12px; padding: 12px 20px; margin-bottom: 24px; font-size: 14px; color: var(--muted); }
@@ -73,6 +70,7 @@ body::before {
 .q-badge.pratique { background: #fef3e2; color: #c96b3f; }
 .q-badge.theorique { background: #e8f0fe; color: #4a6eb5; }
 .q-badge.storytelling { background: #f0f7ed; color: #4a8e5e; }
+.q-badge.profil { background: #f3e8fe; color: #7b4fb5; }
 .q-num { font-size: 11px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; color: var(--terra-light); margin-bottom: 8px; }
 .q-text { font-family: 'Cormorant Garamond', serif; font-size: clamp(19px,3vw,25px); font-weight: 600; line-height: 1.4; }
 .q-hint { font-size: 12px; color: var(--muted); font-style: italic; margin-top: 8px; display: none; }
@@ -107,7 +105,6 @@ body::before {
 .dot.done-ok { background: var(--green); }
 .dot.done-ko { background: var(--red); }
 
-/* RESULTS */
 .result-wrap { display: none; }
 .result-wrap.show { display: block; animation: fadeUp 0.6s ease both; }
 .r-top { text-align: center; margin-bottom: 36px; }
@@ -132,7 +129,8 @@ body::before {
   <div class="header" id="hdr">
     <span class="tag">✦ Diagnostic gratuit</span>
     <h1>Et si votre message était<br><em>votre meilleur outil de vente ?</em></h1>
-    <p>Faites le point sur votre positionnement stratégique et votre storytelling en 5 minutes chrono. 12 questions, un résultat concret et un plan d'action pour la suite.</p>
+    <p>Vous accompagnez des clients, vous avez une offre, vous générez des revenus. Mais vous sentez que quelque chose coince encore dans votre message ou votre positionnement. Ce diagnostic est fait pour vous.</p>
+    <div class="header-note">12 questions · 5 minutes · Un résultat concret et personnalisé</div>
   </div>
 
   <div class="card" id="introCard">
@@ -182,7 +180,7 @@ body::before {
 
 <script>
 const CAL = 'https://calendar.app.google/ZMLZoXtaFjAiju8d9';
-const SHEET_URL = 'https://script.google.com/macros/s/AKfycbwERoy-54uXNF2kemdlDC1JWxvGa4mKDShGsFkjBCV9PHAXugCUj4XvVFsMJwLseBMU/exec';
+const SHEET_URL = 'https://script.google.com/macros/s/AKfycbzUrkuyvyDl-v1WZhtLDQ2DQQ2KjmRnQwHJx5LlZZPncsQktCyXnZXPug5qVEycbB_z/exec';
 
 const Q = [
   { type:'pratique', multi:false,
@@ -195,25 +193,25 @@ const Q = [
     good:"Exactement ! Un positionnement solide tient en 30 secondes, quelle que soit la personne en face.",
     bad:"Un pitch qui change à chaque fois, c'est souvent le signe que les fondations ne sont pas encore posées. Pas de panique, c'est justement ce qu'on construit."
   },
-  { type:'theorique', multi:false,
-    t:"Le positionnement stratégique, c'est quoi selon vous ?",
-    o:["C'est la façon dont je me présente sur les réseaux sociaux.",
-       "C'est le territoire que j'occupe dans l'esprit de mes clients idéaux.",
-       "C'est mon offre et mes tarifs.",
-       "C'est mon style de communication et mon identité visuelle."],
-    correct:[1],
-    good:"Bingo ! Le positionnement, c'est la place que vous occupez dans l'esprit de votre client, avant même qu'il ait lu votre offre.",
-    bad:"Pas tout à fait ! Le positionnement va bien au-delà de la communication ou des tarifs. C'est le territoire stratégique que vous occupez dans l'esprit de vos clients."
+  { type:'profil', multi:false,
+    t:"Depuis combien de temps êtes-vous en activité à votre compte ?",
+    o:["Moins de 6 mois, je pose encore les bases.",
+       "Entre 6 mois et 2 ans, je commence à avoir des clients réguliers.",
+       "Entre 2 et 5 ans, mon activité tourne et je cherche à la stabiliser.",
+       "Plus de 5 ans, j'ai une vraie expérience terrain."],
+    correct:[2,3],
+    good:"Parfait. Ce diagnostic est conçu pour des experts qui ont déjà un terrain solide sous les pieds.",
+    bad:"Ce diagnostic est conçu pour des experts déjà en activité. Si vous démarrez, certains éléments ne s'appliqueront pas encore à votre situation, et c'est tout à fait normal. Les fondations viendront au bon moment."
   },
-  { type:'storytelling', multi:false,
-    t:"Le storytelling stratégique, à quoi ça sert vraiment ?",
-    o:["À raconter sa vie pour créer de l'émotion et se connecter.",
-       "À écrire des posts qui font des likes et augmentent la visibilité.",
-       "À structurer un message clair qui ancre l'autorité et guide vers l'action.",
-       "À se différencier avec des anecdotes personnelles et authentiques."],
-    correct:[2],
-    good:"Exactement ! Le storytelling stratégique n'est pas là pour attendrir. Il structure votre message pour que votre client comprenne pourquoi vous, et pas un autre.",
-    bad:"Le storytelling émotionnel connecte, mais sans stratégie derrière, il décore sans convertir. La différence, c'est l'architecture."
+  { type:'profil', multi:false,
+    t:"Quand vous pensez à votre chiffre d'affaires des 3 derniers mois, quelle phrase vous correspond le mieux ?",
+    o:["C'est très irrégulier, certains mois sont bons et d'autres très faibles.",
+       "J'ai un socle stable mais je plafonne, j'ai du mal à monter en gamme.",
+       "Ça progresse, mais je travaille trop pour ce que je gagne.",
+       "Mon chiffre d'affaires est solide et prévisible, je cherche à optimiser."],
+    correct:[1,2,3],
+    good:"C'est exactement là que le positionnement fait la différence. Stabiliser, monter en gamme, ou optimiser sans s'épuiser.",
+    bad:"Un chiffre d'affaires très irrégulier cache souvent un problème de positionnement. Quand le message est clair et l'offre bien structurée, les clients arrivent plus régulièrement."
   },
   { type:'pratique', multi:false,
     t:"Un prospect négocie votre tarif. Votre réaction instinctive ?",
@@ -227,7 +225,7 @@ const Q = [
   },
   { type:'theorique', multi:true,
     t:"Quels sont les signes qu'un positionnement est vraiment solide ?",
-    o:["Les clients arrivent déjà convaincus à 70-80% avant l'appel.",
+    o:["Les clients arrivent déjà convaincus à 70 ou 80% avant l'appel.",
        "Vous publiez beaucoup de contenu et avez beaucoup de visibilité.",
        "Vous n'avez presque plus besoin de vous expliquer, les gens comprennent vite.",
        "Vous recevez régulièrement des demandes de réduction."],
@@ -269,10 +267,10 @@ const Q = [
     t:"Comment se passent vos appels avec des prospects en général ?",
     o:["Ce sont des conversations fluides, ils comprennent vite la valeur.",
        "Je dois souvent beaucoup expliquer pour justifier mon approche.",
-       "Je sens que je dois \"vendre\" et ça me met mal à l'aise.",
-       "Mes appels n'aboutissent souvent pas, je ne comprends pas pourquoi."],
+       "Je sens que je dois vendre et ça me met mal à l'aise.",
+       "Mes appels n'aboutissent souvent pas et je ne comprends pas pourquoi."],
     correct:[0],
-    good:"Quand le positionnement est clair, vos prospects arrivent déjà convaincus à 80%. L'appel devient une conversation, pas une négociation. 🙌",
+    good:"Quand le positionnement est clair, vos prospects arrivent déjà convaincus à 80%. L'appel devient une conversation, pas une négociation.",
     bad:"Si vous devez beaucoup expliquer ou vendre, c'est souvent que le travail de positionnement n'a pas encore été fait en amont. Ce n'est pas un problème de technique de vente."
   },
   { type:'storytelling', multi:false,
@@ -282,7 +280,7 @@ const Q = [
        "Je liste mes compétences avec quelques anecdotes pour illustrer.",
        "Je ne sais pas trop, parler de moi c'est toujours compliqué."],
     correct:[1],
-    good:"Une rupture, une tension, un tournant... voilà ce qui capte l'attention. La chronologie, c'est un CV. La rupture, c'est du storytelling. 🔥",
+    good:"Une rupture, une tension, un tournant... voilà ce qui capte l'attention. La chronologie, c'est un CV. La rupture, c'est du storytelling.",
     bad:"Une histoire qui commence par \"j'ai fait mes études à...\" endort. Celle qui commence par \"le jour où tout a basculé...\" captive. La différence, c'est le point de départ."
   },
   { type:'theorique', multi:false,
@@ -298,7 +296,7 @@ const Q = [
   { type:'pratique', multi:false,
     t:"Honnêtement, quelle phrase vous ressemble le plus aujourd'hui ?",
     o:["Mon positionnement est solide, je cherche juste à l'affiner et maintenir ma cohérence.",
-       "J'ai des bases, mais quelque chose crée encore de la friction, je ne sais pas exactement quoi.",
+       "J'ai des bases, mais quelque chose crée encore de la friction et je ne sais pas exactement quoi.",
        "Je tourne beaucoup sans vraiment avancer, il manque clairement une colonne vertébrale.",
        "Je repars presque de zéro, j'ai besoin de tout poser proprement."],
     correct:[0],
@@ -309,6 +307,7 @@ const Q = [
 
 const L=['A','B','C','D'];
 let cur=0, answered=[], validated=[], score=0, user={};
+let answersLog=[];
 
 function startQuiz(){
   const fn=document.getElementById('fn').value.trim();
@@ -329,8 +328,8 @@ function render(){
   document.getElementById('qNum').textContent='Question '+String(cur+1).padStart(2,'0');
   document.getElementById('pCount').textContent=(cur+1)+' / '+Q.length;
   document.getElementById('pFill').style.width=(((cur+1)/Q.length)*100)+'%';
-  const labels={pratique:'Pratique',theorique:'Théorique',storytelling:'Storytelling'};
-  document.getElementById('qBadge').innerHTML=`<span class="q-badge ${q.type}">${labels[q.type]}</span>`;
+  const labels={pratique:'Pratique',theorique:'Théorique',storytelling:'Storytelling',profil:'Profil'};
+  document.getElementById('qBadge').innerHTML='<span class="q-badge '+q.type+'">'+labels[q.type]+'</span>';
   document.getElementById('qText').textContent=q.t;
   document.getElementById('qHint').style.display=q.multi?'block':'none';
   const fb=document.getElementById('feedback');
@@ -338,13 +337,13 @@ function render(){
   const c=document.getElementById('opts'); c.innerHTML='';
   const isVal=validated[cur];
   const sel=answered[cur]?answered[cur].selected:[];
-  q.o.forEach((o,i)=>{
+  q.o.forEach(function(o,i){
     const d=document.createElement('div');
     let cls='opt';
     if(isVal){
       cls+=' locked';
       if(q.correct.includes(i)) cls+=' correct';
-      else if(sel.includes(i)) cls+=' wrong';
+      else if(sel.includes(i)&&!q.correct.includes(i)) cls+=' wrong';
     } else {
       if(sel.includes(i)) cls+=' sel';
     }
@@ -353,7 +352,7 @@ function render(){
     if(isVal&&q.correct.includes(i)) letter='✓';
     else if(isVal&&sel.includes(i)&&!q.correct.includes(i)) letter='✗';
     d.innerHTML='<div class="opt-l">'+letter+'</div><div class="opt-t">'+o+'</div>';
-    if(!isVal) d.onclick=()=>pick(i);
+    if(!isVal) d.onclick=function(){pick(i);};
     c.appendChild(d);
   });
   if(isVal){
@@ -377,7 +376,7 @@ function pick(i){
     if(idx>-1) answered[cur].selected.splice(idx,1);
     else answered[cur].selected.push(i);
   } else { answered[cur].selected=[i]; }
-  document.querySelectorAll('.opt').forEach((el,idx)=>el.classList.toggle('sel',answered[cur].selected.includes(idx)));
+  document.querySelectorAll('.opt').forEach(function(el,idx){el.classList.toggle('sel',answered[cur].selected.includes(idx));});
   document.getElementById('bNext').disabled=answered[cur].selected.length===0;
 }
 
@@ -385,10 +384,11 @@ function validate(){
   const q=Q[cur];
   const sel=answered[cur]?answered[cur].selected:[];
   if(sel.length===0) return;
-  const isCorrect=q.correct.length===sel.length&&q.correct.every(c=>sel.includes(c));
+  const isCorrect=q.correct.length===sel.length&&q.correct.every(function(c){return sel.includes(c);});
   answered[cur].correct=isCorrect;
   validated[cur]=true;
   if(isCorrect) score++;
+  answersLog[cur]=sel.map(function(i){return L[i]+'. '+q.o[i];}).join(' | ');
   render();
 }
 
@@ -424,55 +424,60 @@ function showResults(){
   if(score<=4){
     level="L'EXPLORATEUR"; icon="🗺️";
     title="Votre carte est encore blanche... et c'est une très bonne nouvelle !";
-    desc=`<p>Votre expertise est bien là, ça ne fait aucun doute. Mais votre positionnement cherche encore sa direction. Votre message change selon les interlocuteurs, votre offre n'est pas encore clairement structurée, et vous sentez que quelque chose manque sans pouvoir encore mettre le doigt dessus exactement.</p>
-<p>Ce n'est pas un problème de compétence. C'est un problème de fondations. Et la bonne nouvelle, c'est que tout ça se construit avec la bonne méthode et le bon regard extérieur.</p>
-<p>La première étape, c'est simple : poser un diagnostic clair pour voir exactement où se situent les incohérences, et décider par où commencer.</p>`;
+    desc='<p>Votre expertise est bien là, ça ne fait aucun doute. Mais votre positionnement cherche encore sa direction. Votre message change selon les interlocuteurs, votre offre n\'est pas encore clairement structurée, et vous sentez que quelque chose manque sans pouvoir encore mettre le doigt dessus exactement.</p>'
+      +'<p>Ce n\'est pas un problème de compétence. C\'est un problème de fondations. Et la bonne nouvelle, c\'est que tout ça se construit avec la bonne méthode et le bon regard extérieur.</p>'
+      +'<p>La première étape, c\'est simple : poser un diagnostic clair pour voir exactement où se situent les incohérences, et décider par où commencer.</p>';
     ctaH="Posons vos fondations ensemble.";
     ctaP="Une session de clarté de 45 minutes pour identifier vos zones de friction prioritaires et comprendre ce qui bloque vraiment votre positionnement.";
   } else if(score<=8){
     level="LE BÂTISSEUR"; icon="🧭";
     title="Vous avez construit quelque chose... mais une poutre bouge encore.";
-    desc=`<p>Vous avez avancé, et ça se voit vraiment. Positionnement, offre, message : les éléments sont là. Mais quelque chose dans la structure crée encore de la friction. Des prospects qui hésitent, un message qui varie selon les jours, des appels qui n'aboutissent pas toujours...</p>
-<p>C'est souvent là que les experts restent bloqués le plus longtemps. Parce que tout semble en place, mais l'alignement entre l'offre, le prix et le message n'est pas encore total.</p>
-<p>Un regard extérieur peut changer ça, et souvent bien plus rapidement qu'on ne le pense.</p>`;
+    desc='<p>Vous avez avancé, et ça se voit vraiment. Positionnement, offre, message : les éléments sont là. Mais quelque chose dans la structure crée encore de la friction. Des prospects qui hésitent, un message qui varie selon les jours, des appels qui n\'aboutissent pas toujours...</p>'
+      +'<p>C\'est souvent là que les experts restent bloqués le plus longtemps. Parce que tout semble en place, mais l\'alignement entre l\'offre, le prix et le message n\'est pas encore total.</p>'
+      +'<p>Un regard extérieur peut changer ça, et souvent bien plus rapidement qu\'on ne le pense.</p>';
     ctaH="Alignons ce qui ne tient pas encore.";
     ctaP="Une session de clarté pour identifier précisément le décalage entre votre offre, votre message et votre prix, et définir les ajustements prioritaires.";
   } else {
     level="LE STRATÈGE"; icon="⚔️";
     title="Vos fondations sont solides... mais même les meilleurs ont des angles morts.";
-    desc=`<p>Votre positionnement est clair, votre message tient, vos clients vous comprennent. Vous avez fait le travail que la plupart remettent à plus tard indéfiniment. C'est rare et c'est précieux.</p>
-<p>Mais voilà le truc avec les bons positionnements : ils ne se terminent jamais vraiment. Ils s'affinent, ils s'ancrent plus profondément, et ils révèlent des angles morts que vous ne voyez plus simplement parce que vous êtes trop dedans.</p>
-<p>Même les stratèges ont besoin d'un regard extérieur. 😉</p>`;
-    ctaH="Même les stratèges ont besoin d'un regard extérieur.";
-    ctaP="Une session de clarté pour identifier vos angles morts, affiner votre positionnement et explorer ce qui peut vous faire passer au niveau supérieur.";
+    desc='<p>Votre positionnement est clair, votre message tient, vos clients vous comprennent. Vous avez fait le travail que la plupart remettent à plus tard indéfiniment. C\'est rare et c\'est précieux.</p>'
+      +'<p>Mais voilà le truc avec les bons positionnements : ils ne se terminent jamais vraiment. Ils s\'affinent, ils s\'ancrent plus profondément, et ils révèlent des zones que vous ne voyez plus parce que vous êtes trop dedans.</p>'
+      +'<p>Même les stratèges ont besoin d\'un regard extérieur.</p>';
+    ctaH="Un regard neuf sur ce que vous avez construit.";
+    ctaP="Une session de clarté pour identifier vos angles morts, affiner votre positionnement et explorer ce qui peut vous faire passer au niveau suivant.";
   }
   const rw=document.getElementById('resultWrap');
-  rw.innerHTML=`
-<div class="r-top">
-  <span class="r-icon">${icon}</span>
-  <div class="r-level">${level}</div>
-  <h2 class="r-title">${title}</h2>
-  <div class="r-score">Score : <strong>${score} / ${Q.length} bonnes réponses</strong></div>
-</div>
-<div class="r-desc">${desc}</div>
-<div class="cta-box">
-  <h3>${ctaH}</h3>
-  <p>${ctaP}</p>
-  <a href="${CAL}" target="_blank" class="btn-cta">Réserver ma session de clarté gratuite →</a>
-  <p class="cta-note">Session de 45 min · Sans engagement · Places limitées</p>
-</div>`;
+  rw.innerHTML='<div class="r-top">'
+    +'<span class="r-icon">'+icon+'</span>'
+    +'<div class="r-level">'+level+'</div>'
+    +'<h2 class="r-title">'+title+'</h2>'
+    +'<div class="r-score">Score : <strong>'+score+' / '+Q.length+' bonnes réponses</strong></div>'
+    +'</div>'
+    +'<div class="r-desc">'+desc+'</div>'
+    +'<div class="cta-box">'
+    +'<h3>'+ctaH+'</h3>'
+    +'<p>'+ctaP+'</p>'
+    +'<a href="'+CAL+'" target="_blank" class="btn-cta">Réserver ma session de clarté gratuite →</a>'
+    +'<p class="cta-note">Session de 45 min · Sans engagement · Places limitées</p>'
+    +'</div>';
   rw.classList.add('show');
   window.scrollTo({top:0,behavior:'smooth'});
   sendData(score,level);
 }
 
 function sendData(score,level){
-  if(SHEET_URL==='REMPLACER_PAR_VOTRE_URL_APPS_SCRIPT') return;
+  if(!SHEET_URL) return;
+  const payload={
+    prenom:user.fn, nom:user.ln, email:user.em,
+    score:score, niveau:level,
+    date:new Date().toLocaleDateString('fr-FR')
+  };
+  Q.forEach(function(q,i){ payload['Q'+(i+1)]=answersLog[i]||''; });
   fetch(SHEET_URL,{
     method:'POST', mode:'no-cors',
     headers:{'Content-Type':'application/json'},
-    body:JSON.stringify({prenom:user.fn,nom:user.ln,email:user.em,score,niveau:level,date:new Date().toLocaleDateString('fr-FR')})
-  }).catch(()=>{});
+    body:JSON.stringify(payload)
+  }).catch(function(){});
 }
 </script>
 </body>
